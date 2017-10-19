@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Orders";
+}
+@model Riba.Model.Order
+
+<div ng-app="order" ng-controller="orderCtrl as orderCtrl" ng-init="orderCtrl.init()">
+    <h4>Create a new order</h4>
+    <hr />
+    <div ng-show="orderCtrl.message || orderCtrl.errors">
+        <div class="success">{{orderCtrl.message}}</div>
+        <ul>
+            <li class="error" ng-repeat="error in orderCtrl.errors">{{error}}</li>
+        </ul>
+        <br />
+    </div>
+    <form novalidate name="orderForm" ng-submit="orderCtrl.addOrder(orderForm)" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-md-2" for="orderDate">Order date <span>(dd/MM/yyyy)</span></label>
+            <div class="col-md-10">
+                <input type="text" ng-model="orderCtrl.newOrder.orderDate" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2" for="customerName">Customer name</label>
+            <div class="col-md-10">
+                <input type="text" ng-model="orderCtrl.newOrder.customerName" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2" for="quantity">Quantity</label>
+            <div class="col-md-10">
+                <input type="text" ng-model="orderCtrl.newOrder.quantity" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2" for="unitPrice">Unit price</label>
+            <div class="col-md-10">
+                <input type="text" ng-model="orderCtrl.newOrder.unitPrice" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Create" />
+            </div>
+        </div>
+    </form>
+
+    <h4>Orders</h4>
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order Id</th>
+                <th>Order Date</th>
+                <th>Customer Name</th>
+                <th>Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="order in orderCtrl.orders | orderBy: 'OrderDate'">
+                <td>{{order.OrderId}}</td>
+                <td>{{order.OrderDate | ribaDate | date:'dd/MM/yyyy'}}</td>
+                <td>{{order.CustomerName}}</td>
+                <td>{{order.Cost}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/angular")
+}
